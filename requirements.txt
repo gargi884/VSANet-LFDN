@@ -1,0 +1,10 @@
+imageio==2.37.3
+mat73==0.65
+matplotlib==3.11.0
+numpy==2.4.6
+pandas==3.0.3
+scipy==1.17.1
+setuptools==82.0.1
+skimage==0.25.2
+torch==2.5.1+cu124
+torchvision==0.20.1+cu124
