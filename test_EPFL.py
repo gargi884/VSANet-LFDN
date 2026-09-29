@@ -19,42 +19,33 @@ from datetime import datetime
 from collections import OrderedDict
 from utils.LFDataset1 import LoadTestData
 from utils.DeviceParameters import to_device
+from model.vsanet import VSANet
 import imageio
 
 
 # Testing settings
 parser = argparse.ArgumentParser(description="Light Field Restoration")
-parser.add_argument("--model_name", type=str, default='HLFRN', help="Path for saving training log ")
-parser.add_argument("--sigma", type=int, default=20, help="The number of stages")
+parser.add_argument("--model_name", type=str, default='VSANet', help="Path for saving training log ")
+parser.add_argument("--sigma", type=int, default=50, help="The number of stages")
 parser.add_argument("--angResolution", type=int, default=5, help="The angular resolution of original LF")
 
 parser.add_argument("--batchSize", type=int, default=1, help="Batch size")
 parser.add_argument("--cropPatchSize", type=int, default=32, help="The size of croped LF patch")
 parser.add_argument("--overlap", type=int, default=4, help="The size of croped LF patch")
 
-parser.add_argument("--modelPath", type=str, default='./pretrained_models/HLFRN/model_sigma_10.pth', help="Path for loading trained model ")
+parser.add_argument("--modelPath", type=str, default='VSANet_sigma_50.pth', help="Path for loading trained model ")
 parser.add_argument("--dataPath", type=str, default='datasets/EPFL.mat', help="Path for loading testing data ")
 parser.add_argument("--savePath", type=str, default='./results/sythesis_img_test', help="Path for saving results ")
 parser.add_argument("--save_png", type=str, default=True, help="save png results")
 parser.add_argument("--save_mat_files", type=str, default=False, help="save mat results")
 
-#  HLFRN parameters
 parser.add_argument("--n_groups", type=int, default=5, help="The number of HGAG groups") # Large: 5; Small: 3
 parser.add_argument("--n_blocks", type=int, default=5, help="The number of HFEB blocks") # Large: 5; Small: 3
 parser.add_argument("--n_channels", type=int, default=32, help="The number of convolution filters")
 
-#  DRLF parameters
-parser.add_argument("--stageNum", type=int, default=3, help="The number of stages")
-parser.add_argument("--channelNum", type=int, default=3, help="The number of input channels")
-
-# PFE parameters
-parser.add_argument("--temperature_1", type=float, default=1, help="The number of temperature_1")
-parser.add_argument("--temperature_2", type=float, default=1, help="The number of temperature_2")
-parser.add_argument("--component_num", type=int, default=4, help="The number of pfe component")
-parser.add_argument("--sasLayerNum", type=int, default=6, help="The number of stages")
-parser.add_argument("--epochNum", type=int, default=10000, help="The number of epoches")
 
 opt = parser.parse_args()
+opt.modelPath = './checkpoints/VSANet_sigma_'+str(opt.sigma)+'.pth'
 
 save_dir = opt.savePath + '/' + opt.model_name + '_' + str(opt.sigma)
 if not os.path.exists(save_dir): 
@@ -75,7 +66,8 @@ if __name__ == '__main__':
     dataloader = DataLoader(lf_dataset, batch_size=opt.batchSize,shuffle=False)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model=torch.jit.load('checkpoints/VSANet_sigma_'+str(opt.sigma)+'.pt')
+    model = VSANet(opt)
+    model.load_state_dict(torch.load(opt.modelPath),strict=False)
     model.eval()
     to_device(model,device)
 
