@@ -1,4 +1,4 @@
-# SINET: Sparsity-driven Interpretable Neural Network for Underwater Image Enhancement
+# VSANet: View-aware Sparse Attention Network for Light Field Image Denoising
 
 [Arxiv](https://arxiv.org/abs/2606.24737)  
 
