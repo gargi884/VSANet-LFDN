@@ -1,6 +1,8 @@
 # VSANet: View-aware Sparse Attention Network for Light Field Image Denoising
 
-[Arxiv](https://arxiv.org/abs/2606.24737)  
+Published in IEEE Signal Processing Letters
+
+[Paper](https://ieeexplore.ieee.org/document/11719423) [Arxiv](https://arxiv.org/abs/2606.24737) [Supplementary](https://drive.google.com/file/d/1f4Vvgxbmef5snlo2DUEgPiUgs8ZiKCuL/view?usp=sharing) 
 
 > **Abstract:**Light field (LF) image denoising is challenging due to the high-dimensional structure of LF data. While noise is independent across sub-aperture images, scene content exhibits strong cross-view correlations. We introduce VSANet, a view-aware sparse attention network for LF denoising. Specifically, we propose a view-aware sparse attention (VSA) block that represents the 4D LF feature map as a unified spatial-angular token space and performs cross-view aggregation via locality-sensitive hashing-based sparse attention. This enables global feature interactions with linear complexity, effectively exploiting LF correlations across views and spatial locations. In addition, we design a feature refinement (FR) block to emphasize informative features in spatial, angular, and epipolar subspaces. The VSA and FR blocks are integrated within a sequential attention refinement module, forming the core of VSANet. Experiments demonstrate VSANet outperforms state-of-the-art LF denoising methods. ** 
 
@@ -94,11 +96,14 @@ python test_EPFL.py --sigma 50
 If you find the code helpful in your research or work, please cite the following paper.
 
 ```
-@article{panda2026vsanet,
-  title={VSANet: View-aware Sparse Attention Network for Light Field Image Denoising},
+@ARTICLE{11719423,
   author={Panda, Gargi and Kundu, Soumitra and Bhattacharya, Saumik and Routray, Aurobinda},
-  journal={arXiv preprint arXiv:2606.24737},
-  year={2026}
-}
+  journal={IEEE Signal Processing Letters}, 
+  title={VSANet: View-Aware Sparse Attention Network for Light Field Image Denoising}, 
+  year={2026},
+  volume={33},
+  number={},
+  pages={4001-4005}}
+
 
 ```
